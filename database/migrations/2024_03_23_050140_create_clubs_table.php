@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('tech_field');
-            $table->enum('club_day', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', ' Friday', ' Saturday', 'Sunday']);
+            $table->enum('club_day', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
             $table->timestamps();
         });
     }
