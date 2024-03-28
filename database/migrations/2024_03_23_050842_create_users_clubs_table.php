@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('users_clubs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('club_id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('club_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('club_id')->references('id')->on('clubs')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
