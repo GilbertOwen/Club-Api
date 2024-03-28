@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('details');
             $table->integer('duration');
-            $table->unsignedBigInteger('club_id');
             $table->foreign('club_id')->references('id')->on('clubs')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('club_id');
             $table->timestamps();
         });
     }
