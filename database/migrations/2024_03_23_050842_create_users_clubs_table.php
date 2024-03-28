@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users_clubs', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_mentor')->default(false);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('club_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

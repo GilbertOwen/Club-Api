@@ -16,11 +16,14 @@ use App\Http\Controllers\ClubController;
 |
 */
 
-Route::prefix('auth')->group(function(){
+Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
-Route::prefix('clubs')->middleware('auth:sanctum')->group(function(){
+
+Route::prefix('clubs')->middleware('auth:sanctum')->group(function () {
     Route::get('/', [ClubController::class, 'index']);
+    // Route::post('/', [ClubController::class, 'store']);
+    Route::get('/getUserClubs', [ClubController::class, 'getUserClubs']);
 });
