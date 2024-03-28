@@ -21,8 +21,9 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
+
 Route::prefix('clubs')->middleware('auth:sanctum')->group(function () {
     Route::get('/', [ClubController::class, 'index']);
     // Route::post('/', [ClubController::class, 'store']);
-    Route::get('/getUserClubs', [ClubController::class, 'index']);
+    Route::get('/getUserClubs', [ClubController::class, 'getUserClubs']);
 });
