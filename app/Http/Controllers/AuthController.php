@@ -73,7 +73,7 @@ class AuthController extends Controller
         $token = $user->createToken('sanctum')->plainTextToken;
 
         return response([
-            'message' => 'Logged in successfully',
+            'message' => 'Login success',
             'user'=> $user,
             'token' => $token
         ], 200);
@@ -84,7 +84,7 @@ class AuthController extends Controller
         $user->tokens()->delete();
 
         $request->user()->currentAccessToken()->delete();
-
+        
         return response([
             'message' => 'Logged out successfully'
         ], 200);
