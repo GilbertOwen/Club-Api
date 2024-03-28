@@ -15,4 +15,7 @@ class Club extends Model
     {
         return $this->belongsToMany(User::class, 'users_clubs', 'club_id', 'user_id');
     }
+    public function materials(){
+        return $this->hasMany(Material::class, 'club_id');
+    }
 }
