@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class isMentor
+class isMember
 {
     /**
      * Handle an incoming request.
@@ -20,19 +20,16 @@ class isMentor
     {
         $user = Auth::user();
 
-
         if (!Club::find($request->clubId)->exists()) {
             return response([
                 'message' => 'Club not found'
             ], 404);
         }
 
-        $theUser = UsersClubs::where('club_id', $request->clubId)->where('user_id', $user->id)->first();
-
-        if (!$theUser->is_mentor) {
+        if (!UsersClubs::where('user_id', $user->id)->where('club_id', $request->clubId)->exists()) {
             return response([
-                'message' => "You're not a mentor"
-            ], 401);
+                'message' => "You're not in the club"
+            ], 403);
         }
 
         return $next($request);
