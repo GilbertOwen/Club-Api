@@ -25,9 +25,9 @@ class ClubController extends Controller
 
         return ClubResource::collection($clubs)->additional(['message' => 'Retrieved clubs data']);
     }
-    public function show($id)
+    public function show($clubId)
     {
-        $club = Club::find($id);
+        $club = Club::find($clubId);
 
         if (!$club) {
             return response([
@@ -81,11 +81,66 @@ class ClubController extends Controller
 
         return (new ClubResource($club))->additional(['message' => 'Club created successfully, now youre the mentor']);
     }
-    public function getUserClubs()
+    public function update(Request $request, $clubId)
     {
-        $user = User::find(Auth::id());
+        $club = Club::where('id', $clubId)->first();
 
-        return ClubResource::collection($user->clubs)->additional(['message' => "Retrieved user's clubs"]);
+        if (!$club) {
+            return response([
+                'message' => 'No club found'
+            ], 404);
+        }
+
+        $rules = [
+            'name' => [
+                'min:3',
+                "unique:clubs,name,$club->id"
+            ],
+            'description' => [
+                '',
+            ],
+            'tech_field' => [
+                'required',
+            ],
+            'club_day' => [
+                '',
+                'in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'
+            ]
+        ];
+
+        $validateData = Validator::make($request->all(), $rules);
+
+        if (!$club->updateOrFail($validateData->validated())) {
+            return response([
+                'message' => 'Failed to update Club'
+            ], 422);
+        }
+
+        return response([
+            'message' => 'success',
+            'club' => $club
+        ], 200);
+    }
+
+    public function delete($clubId)
+    {
+        $club = Club::find($clubId);
+
+        if (!$club) {
+            return response([
+                'message' => 'Club not found'
+            ], 404);
+        }
+
+        if (!$club->delete()) {
+            return response([
+                'message' => 'Failed to delete club'
+            ], 422);
+        }
+
+        return response([
+            'message' => 'Successfully deleted club'
+        ]);
     }
     public function update(Request $request, $id)
     {

@@ -20,7 +20,7 @@ class isMember
     {
         $user = Auth::user();
 
-        if (!Club::find($request->clubId)->exists()) {
+        if (!Club::find($request->clubId)) {
             return response([
                 'message' => 'Club not found'
             ], 404);
