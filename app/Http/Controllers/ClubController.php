@@ -142,4 +142,65 @@ class ClubController extends Controller
             'message' => 'Successfully deleted club'
         ]);
     }
+    public function update(Request $request, $id)
+    {
+        $club = Club::where('id', $id)->first();
+
+        if (!$club) {
+            return response([
+                'message' => 'No club found'
+            ], 404);
+        }
+
+        $rules = [
+            'name' => [
+                'min:3',
+                "unique:clubs,name,$club->id"
+            ],
+            'description' => [
+                '',
+            ],
+            'tech_field' => [
+                'required',
+            ],
+            'club_day' => [
+                '',
+                'in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'
+            ]
+        ];
+
+        $validateData = Validator::make($request->all(), $rules);
+
+        if (!$club->updateOrFail($validateData->validated())) {
+            return response([
+                'message' => 'Failed to update Club'
+            ], 422);
+        }
+
+        return response([
+            'message' => 'success',
+            'club' => $club
+        ], 200);
+    }
+
+    public function delete($id)
+    {
+        $club = Club::find($id);
+
+        if (!$club) {
+            return response([
+                'message' => 'Club not found'
+            ], 404);
+        }
+
+        if (!$club->delete()) {
+            return response([
+                'message' => 'Failed to delete club'
+            ], 422);
+        }
+
+        return response([
+            'message' => 'Successfully deleted club'
+        ]);
+    }
 }
