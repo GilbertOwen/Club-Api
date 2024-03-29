@@ -11,5 +11,7 @@ class Material extends Model
 
     protected $guarded = ['id'];
 
-    // public function 
+    public function club(){
+        return $this->belongsTo(Club::class, 'club_id', 'id');
+    }
 }
