@@ -25,9 +25,9 @@ class ClubController extends Controller
 
         return ClubResource::collection($clubs)->additional(['message' => 'Retrieved clubs data']);
     }
-    public function show($id)
+    public function show($clubId)
     {
-        $club = Club::find($id);
+        $club = Club::find($clubId);
 
         if (!$club) {
             return response([
@@ -81,15 +81,9 @@ class ClubController extends Controller
 
         return (new ClubResource($club))->additional(['message' => 'Club created successfully, now youre the mentor']);
     }
-    public function getUserClubs()
+    public function update(Request $request, $clubId)
     {
-        $user = User::find(Auth::id());
-
-        return ClubResource::collection($user->clubs)->additional(['message' => "Retrieved user's clubs"]);
-    }
-    public function update(Request $request, $id)
-    {
-        $club = Club::where('id', $id)->first();
+        $club = Club::where('id', $clubId)->first();
 
         if (!$club) {
             return response([
@@ -128,9 +122,9 @@ class ClubController extends Controller
         ], 200);
     }
 
-    public function delete($id)
+    public function delete($clubId)
     {
-        $club = Club::find($id);
+        $club = Club::find($clubId);
 
         if (!$club) {
             return response([
