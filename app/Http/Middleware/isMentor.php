@@ -20,13 +20,13 @@ class isMentor
     {
         $user = Auth::user();
 
-        if (!Club::find($request->id)->exists()) {
+        if (!Club::find($request->clubId)->exists()) {
             return response([
                 'message' => 'Club not found'
             ], 404);
         }
 
-        $theUser = UsersClubs::where('club_id', $request->id)->where('user_id', $user->id)->first();
+        $theUser = UsersClubs::where('club_id', $request->clubId)->where('user_id', $user->id)->first();
 
         if (!$theUser->is_mentor) {
             return response([
